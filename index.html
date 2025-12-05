@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kekswettbewerb25 Voting Cloud</title>
+    <title>Kekswettbewerb25</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .rank-item { transition: all 0.2s; }
@@ -17,7 +17,7 @@
     <!-- LANDING SCREEN -->
     <div id="landing-screen" class="container mx-auto p-6 max-w-md mt-10">
         <div class="bg-white p-8 rounded-xl shadow-xl text-center">
-            <h1 class="text-3xl font-bold mb-2 text-indigo-700">🗳️ kekswettbewerb25 Voting</h1>
+            <h1 class="text-3xl font-bold mb-2 text-indigo-700">kekswettbewerb25</h1>
             <p class="text-slate-500 mb-8">Weighted Kemeny-Young System</p>
 
             <div class="space-y-4">
@@ -48,7 +48,7 @@
             <div class="flex gap-3">
                 <button onclick="location.reload()" class="flex-1 bg-gray-200 text-gray-600 py-3 rounded-lg font-bold">Back</button>
                 <button id="btn-launch" onclick="createSession()" class="flex-[2] bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 shadow-md">
-                    Launch Room 🚀
+                    Launch Room
                 </button>
             </div>
         </div>
@@ -99,11 +99,11 @@
             </div>
         </div>
     </div>
-
+    
     <!-- VOTING BOOTH SCREEN -->
-    <div id="voting-screen" class="hidden container mx-auto p-4 max-w-lg mt-4">
-        <div class="bg-white p-4 rounded-xl shadow-xl">
-            <div class="flex justify-between items-center mb-4">
+    <div id="voting-screen" class="hidden container mx-auto p-4 max-w-lg mt-4 h-screen flex flex-col">
+        <div class="bg-white p-4 rounded-xl shadow-xl flex-grow flex flex-col">
+            <div class="flex justify-between items-center mb-4 flex-shrink-0">
                 <div>
                     <h2 class="text-xs font-bold text-gray-400 uppercase">Voting As</h2>
                     <div id="current-voter-display" class="text-xl font-bold text-indigo-700"></div>
@@ -115,33 +115,38 @@
             </div>
 
             <!-- TABS -->
-            <div class="flex mb-4 bg-gray-100 p-1 rounded-lg">
+            <div class="flex mb-4 bg-gray-100 p-1 rounded-lg flex-shrink-0">
                 <button id="tab-primary" onclick="switchTab('primary')" class="flex-1 py-2 rounded-md text-sm font-bold shadow-sm bg-white text-indigo-600 transition-all">Primary (80%)</button>
                 <button id="tab-secondary" onclick="switchTab('secondary')" class="flex-1 py-2 rounded-md text-sm font-bold text-gray-500 hover:text-gray-700 transition-all">Secondary (20%)</button>
             </div>
 
-            <!-- SORTING VIEW -->
-            <div id="sort-container" class="min-h-[400px]">
-                <div class="flex gap-3 h-full">
-                    <!-- POOL -->
-                    <div class="w-1/2 flex flex-col">
-                        <h3 class="font-bold text-xs uppercase text-gray-400 mb-2 text-center">Tap to Add</h3>
-                        <div id="pool-list" class="space-y-2 flex-grow overflow-y-auto p-1"></div>
-                    </div>
-                    
-                    <!-- RANKED -->
-                    <div class="w-1/2 flex flex-col">
-                        <h3 class="font-bold text-xs uppercase text-indigo-400 mb-2 text-center">Your Ranking</h3>
-                        <div id="ranked-list" class="space-y-2 flex-grow bg-indigo-50 rounded-lg p-2 border-2 border-dashed border-indigo-200 overflow-y-auto relative">
-                            <div id="empty-state" class="absolute inset-0 flex items-center justify-center text-center p-4 text-indigo-200 text-sm font-bold pointer-events-none">
-                                Tap names on left to rank them here
-                            </div>
+            <!-- SORTING VIEW - RESPONSIVE STACK -->
+            <!-- 
+                 1. flex-col: Stacks lists vertically by default (Mobile) 
+                 2. md:flex-row: Switches to side-by-side on medium screens+ (Desktop)
+                 3. min-h-0 + overflow-hidden: Prevents the page from growing infinitely; forces internal scrolling.
+            -->
+            <div id="sort-container" class="flex-grow flex flex-col md:flex-row gap-4 min-h-0 overflow-hidden">
+                
+                <!-- POOL (Top on mobile, Left on desktop) -->
+                <!-- min-h-0 is crucial for nested flex scrolling -->
+                <div class="flex-1 flex flex-col min-h-0 bg-slate-50 rounded-lg p-2 border border-slate-200">
+                    <h3 class="font-bold text-xs uppercase text-gray-400 mb-2 text-center flex-shrink-0">Tap to Add</h3>
+                    <div id="pool-list" class="space-y-2 flex-grow overflow-y-auto p-1"></div>
+                </div>
+                
+                <!-- RANKED (Bottom on mobile, Right on desktop) -->
+                <div class="flex-1 flex flex-col min-h-0 bg-indigo-50 rounded-lg p-2 border-2 border-dashed border-indigo-200">
+                    <h3 class="font-bold text-xs uppercase text-indigo-400 mb-2 text-center flex-shrink-0">Your Ranking</h3>
+                    <div id="ranked-list" class="space-y-2 flex-grow overflow-y-auto relative p-1">
+                        <div id="empty-state" class="absolute inset-0 flex items-center justify-center text-center p-4 text-indigo-200 text-sm font-bold pointer-events-none">
+                            Tap names to rank them here
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-6">
+            <div class="mt-4 flex-shrink-0">
                 <button id="btn-submit" onclick="submitVote()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 shadow-lg transition transform active:scale-95">
                     Submit Ballot 🗳️
                 </button>
@@ -500,4 +505,5 @@
     </script>
 </body>
 </html>
+
 
