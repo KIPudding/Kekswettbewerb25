@@ -177,7 +177,7 @@
         let auth = null;
         let appId = 'default';
 
-        // --- UI NAVIGATION HELPERS (Available globally) ---
+        // --- EXPORT FUNCTIONS FOR HTML ---
         window.switchScreen = (id) => {
             ['landing-screen', 'create-screen', 'admin-screen', 'identity-screen', 'voting-screen', 'success-screen'].forEach(s => {
                 document.getElementById(s).classList.add('hidden');
@@ -217,31 +217,43 @@
             alert("Copied!");
         };
 
-        // --- FIREBASE INIT (Safeguarded) ---
+        // --- FIREBASE INIT ---
         async function initFirebase() {
             try {
+                const firebaseConfig = {
+                  apiKey: "AIzaSyBlhwixxs7z1p9AMqrAv5cXkCne1SnRFlw",
+                  authDomain: "kekswettbewerb25.firebaseapp.com",
+                  projectId: "kekswettbewerb25",
+                  storageBucket: "kekswettbewerb25.firebasestorage.app",
+                  messagingSenderId: "361476401776",
+                  appId: "1:361476401776:web:902ef14f83d990b63ae2b5",
+                  measurementId: "G-JQ6K8G0Q49"
+                };
+                // Go to console.firebase.google.com -> Project Settings -> General -> "Your Apps" -> Config
+                const manualConfig = {
+                    apiKey: "REPLACE_ME",
+                    authDomain: "REPLACE_ME",
+                    projectId: "REPLACE_ME",
+                    storageBucket: "REPLACE_ME",
+                    messagingSenderId: "REPLACE_ME",
+                    appId: "REPLACE_ME"
+                };
+
                 let config;
                 
-                // 1. Try Environment Config (Preview Mode)
+                // If running in the AI preview environment, use auto-config.
                 if (typeof __firebase_config !== 'undefined') {
                     config = JSON.parse(__firebase_config);
                     if (typeof __app_id !== 'undefined') appId = __app_id;
                 } else {
-                    // 2. Fallback for Local Hosting (Fill this in if running locally!)
-                    // GO TO: console.firebase.google.com -> Create Project -> Add Web App -> Copy Config
-                    config = {
-                        apiKey: "REPLACE_WITH_YOUR_API_KEY",
-                        authDomain: "REPLACE_WITH_YOUR_PROJECT.firebaseapp.com",
-                        projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-                        storageBucket: "REPLACE_WITH_YOUR_PROJECT.appspot.com",
-                        messagingSenderId: "123456789",
-                        appId: "1:123456789:web:abcdef"
-                    };
-                    console.warn("Using LOCAL config placeholder. If this fails, update the config object in index.html");
+                    // If running on GitHub/Localhost, use manualConfig
+                    config = manualConfig;
                 }
 
-                if (!config.apiKey || config.apiKey.includes("REPLACE")) {
-                    throw new Error("Missing Configuration");
+                if (!config.apiKey || config.apiKey.includes("REPLACE_ME")) {
+                    console.error("Firebase Config Missing!");
+                    // We don't alert here to allow the UI to load, but actions will fail.
+                    return;
                 }
 
                 const app = initializeApp(config);
@@ -253,17 +265,16 @@
 
             } catch (e) {
                 console.error("Firebase Init Error:", e);
-                // We don't crash the UI, but database actions will fail nicely later
+                alert("Database connection failed. Did you paste the config correctly?");
             }
         }
 
-        // Initialize immediately
         initFirebase();
 
         // --- CORE LOGIC ---
 
         window.createSession = async () => {
-            if (!db) return alert("Database not connected! If running locally, edit the HTML file to add your Firebase Config.");
+            if (!db) return alert("Database not connected! Edit the HTML file and paste your Firebase Config.");
             
             const raw = document.getElementById('participants-input').value;
             const names = raw.split(',').map(s => s.trim()).filter(s => s.length > 0);
@@ -285,7 +296,7 @@
         };
 
         window.joinSession = async () => {
-            if (!db) return alert("Database not connected! If running locally, edit the HTML file to add your Firebase Config.");
+            if (!db) return alert("Database not connected! Edit the HTML file and paste your Firebase Config.");
 
             const code = document.getElementById('join-code-input').value.trim();
             if (code.length !== 4) return alert("Invalid code format");
