@@ -101,9 +101,9 @@
     </div>
     
     <!-- VOTING BOOTH SCREEN -->
-    <div id="voting-screen" class="hidden container mx-auto p-4 max-w-lg mt-4 h-screen flex flex-col">
-        <div class="bg-white p-4 rounded-xl shadow-xl flex-grow flex flex-col">
-            <div class="flex justify-between items-center mb-4 flex-shrink-0">
+    <div id="voting-screen" class="hidden container mx-auto p-4 max-w-lg mt-4">
+        <div class="bg-white p-4 rounded-xl shadow-xl">
+            <div class="flex justify-between items-center mb-4">
                 <div>
                     <h2 class="text-xs font-bold text-gray-400 uppercase">Voting As</h2>
                     <div id="current-voter-display" class="text-xl font-bold text-indigo-700"></div>
@@ -115,28 +115,23 @@
             </div>
 
             <!-- TABS -->
-            <div class="flex mb-4 bg-gray-100 p-1 rounded-lg flex-shrink-0">
+            <div class="flex mb-4 bg-gray-100 p-1 rounded-lg">
                 <button id="tab-primary" onclick="switchTab('primary')" class="flex-1 py-2 rounded-md text-sm font-bold shadow-sm bg-white text-indigo-600 transition-all">Primary (80%)</button>
                 <button id="tab-secondary" onclick="switchTab('secondary')" class="flex-1 py-2 rounded-md text-sm font-bold text-gray-500 hover:text-gray-700 transition-all">Secondary (20%)</button>
             </div>
 
             <!-- SORTING VIEW - RESPONSIVE STACK -->
-            <!-- 
-                 1. flex-col: Stacks lists vertically by default (Mobile) 
-                 2. md:flex-row: Switches to side-by-side on medium screens+ (Desktop)
-                 3. min-h-0 + overflow-hidden: Prevents the page from growing infinitely; forces internal scrolling.
-            -->
-            <div id="sort-container" class="flex-grow flex flex-col md:flex-row gap-4 min-h-0 overflow-hidden">
+            <!-- Fixed height (h-80) prevents layout collapse on mobile. -->
+            <div id="sort-container" class="flex flex-col md:flex-row gap-4">
                 
                 <!-- POOL (Top on mobile, Left on desktop) -->
-                <!-- min-h-0 is crucial for nested flex scrolling -->
-                <div class="flex-1 flex flex-col min-h-0 bg-slate-50 rounded-lg p-2 border border-slate-200">
+                <div class="flex-1 flex flex-col h-80 bg-slate-50 rounded-lg p-2 border border-slate-200">
                     <h3 class="font-bold text-xs uppercase text-gray-400 mb-2 text-center flex-shrink-0">Tap to Add</h3>
                     <div id="pool-list" class="space-y-2 flex-grow overflow-y-auto p-1"></div>
                 </div>
                 
                 <!-- RANKED (Bottom on mobile, Right on desktop) -->
-                <div class="flex-1 flex flex-col min-h-0 bg-indigo-50 rounded-lg p-2 border-2 border-dashed border-indigo-200">
+                <div class="flex-1 flex flex-col h-80 bg-indigo-50 rounded-lg p-2 border-2 border-dashed border-indigo-200">
                     <h3 class="font-bold text-xs uppercase text-indigo-400 mb-2 text-center flex-shrink-0">Your Ranking</h3>
                     <div id="ranked-list" class="space-y-2 flex-grow overflow-y-auto relative p-1">
                         <div id="empty-state" class="absolute inset-0 flex items-center justify-center text-center p-4 text-indigo-200 text-sm font-bold pointer-events-none">
@@ -146,9 +141,9 @@
                 </div>
             </div>
 
-            <div class="mt-4 flex-shrink-0">
+            <div class="mt-4">
                 <button id="btn-submit" onclick="submitVote()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 shadow-lg transition transform active:scale-95">
-                    Submit Ballot 🗳️
+                    Submit
                 </button>
             </div>
         </div>
@@ -505,6 +500,7 @@
     </script>
 </body>
 </html>
+
 
 
 
